@@ -17,6 +17,10 @@ const Container = styled.div`
   left: 50%;
   top: 15%;
   transform: translate(-50%, 0);
+
+  @media only screen and (max-width: 960px) {
+    width: 90%;
+  }
 `;
 
 const Logo = styled.img`
