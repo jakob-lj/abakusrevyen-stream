@@ -2,21 +2,21 @@ import React from "react";
 import styled from "styled-components";
 
 import logo from "../assets/logo.png";
+import deloitteLogo from "../assets/deloitte/DEL_SEC_RGB.png";
 
 const Background = styled.div`
   height: 100%;
   width: 100%;
   background-color: rgb(29, 50, 94);
   display: block;
-  position: fixed;
 `;
 
 const Container = styled.div`
   width: 50%;
-  position: relative;
-  left: 50%;
-  top: 15%;
-  transform: translate(-50%, 0);
+  margin: auto;
+  padding-top: 4em;
+
+  min-height: calc(100vh - 4em);
 
   @media only screen and (max-width: 960px) {
     width: 90%;
@@ -32,6 +32,12 @@ const H3 = styled.h3`
   text-align: center;
 `;
 
+const H5 = styled.h5`
+  margin-top: 3em;
+  color: white;
+  text-align: center;
+`;
+
 const P = styled.p`
   color: white;
   text-align: center;
@@ -39,6 +45,19 @@ const P = styled.p`
 
 const A = styled.a`
   color: red;
+`;
+
+const SponsorContainer = styled.div`
+  width: 100%;
+  display: flex;
+  height: 8 em;
+`;
+
+const SponsorLogo = styled.img`
+  display: block;
+  width: 40%;
+  height: intrinsic;
+  margin: auto;
 `;
 
 const DigitalTicket = () => {
@@ -58,6 +77,11 @@ const DigitalTicket = () => {
             jakob.johannessen@abakus.no
           </A>
         </P>
+        <H5>Revyen er sponset av:</H5>
+        <SponsorContainer>
+          <SponsorLogo src={deloitteLogo} />
+          <SponsorLogo src={deloitteLogo} />
+        </SponsorContainer>
       </Container>
     </Background>
   );

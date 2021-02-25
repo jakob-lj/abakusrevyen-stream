@@ -9,13 +9,13 @@ const Routes = () => {
   return (
     <div>
       <Router>
-        <Route path={"/digital-billett"} component={DigitalTicket} />
-        <Route path={"/Landing"} component={Landing} />
-        <Route path={"/StreamingApp"} component={StreamingApp} />
-        <Route path={"/Chat"} component={Chat} />
+        <Route path={"/"} component={DigitalTicket} />
       </Router>
     </div>
   );
 };
 
+/* <Route path={"/Landing"} component={Landing} />
+<Route path={"/StreamingApp"} component={StreamingApp} />
+<Route path={"/Chat"} component={Chat} /> */
 export default Routes;
