@@ -4,13 +4,7 @@ import styled from "styled-components";
 import logo from "../assets/logo.png";
 import deloitteLogo from "../assets/deloitte/DEL_SEC_RGB.png";
 import sopraLogo from "../assets/sopra/v1.png";
-
-const Background = styled.div`
-  height: 100%;
-  width: 100%;
-  background-color: rgb(29, 50, 94);
-  display: block;
-`;
+import Background from "../components/Background";
 
 const Container = styled.div`
   width: 50%;
@@ -63,28 +57,24 @@ const SponsorLogo = styled.img`
 
 const DigitalTicket = () => {
   return (
-    <Background>
-      <Container>
-        <Logo src={logo} />
-        <H3>Takk for at du har kjøpt billett!</H3>
-        <P>
-          Vi gleder oss til å vise dere hva vi har jobbet med i nesten ett år.
-          Dette blir moro.
-        </P>
-        <P>
-          Du vil bli tilsendt din digitale billett på mail når vi nærmer oss
-          forestilling. Dersom du har spørsmål kan disse rettes til{" "}
-          <A href="mailto:jakob.johannessen@abakus.no">
-            jakob.johannessen@abakus.no
-          </A>
-        </P>
-        <H5>Revyen er sponset av:</H5>
-        <SponsorContainer>
-          <SponsorLogo src={deloitteLogo} />
-          <SponsorLogo src={sopraLogo} />
-        </SponsorContainer>
-      </Container>
-    </Background>
+    <Container>
+      <Logo src={logo} />
+      <H3>Takk for at du har kjøpt billett!</H3>
+      <P>
+Vi gleder oss til å vise dere hva vi har jobbet med det siste året. Dette blir moro.
+      </P>
+      <P>
+	Du vil bli tilsendt din digitale billett på mail før forestillingen. Spørsmål kan rettes
+        <A href="mailto:revy-teknikk@abakus.no">
+          revy-teknikk@abakus.no
+        </A>
+      </P>
+      <H5>Revyen er sponset av:</H5>
+      <SponsorContainer>
+        <SponsorLogo src={deloitteLogo} />
+        <SponsorLogo src={sopraLogo} />
+      </SponsorContainer>
+    </Container>
   );
 };
 
