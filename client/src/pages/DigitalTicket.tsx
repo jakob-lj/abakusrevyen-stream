@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import logo from "../assets/logo.png";
 import deloitteLogo from "../assets/deloitte/DEL_SEC_RGB.png";
+import sopraLogo from "../assets/sopra/v1.png";
 
 const Background = styled.div`
   height: 100%;
@@ -80,7 +81,7 @@ const DigitalTicket = () => {
         <H5>Revyen er sponset av:</H5>
         <SponsorContainer>
           <SponsorLogo src={deloitteLogo} />
-          <SponsorLogo src={deloitteLogo} />
+          <SponsorLogo src={sopraLogo} />
         </SponsorContainer>
       </Container>
     </Background>
