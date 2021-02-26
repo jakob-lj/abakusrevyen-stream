@@ -66,7 +66,7 @@ const DigitalTicket = () => {
       </P>
       <P>
         Du vil bli tilsendt din digitale billett på mail før forestillingen.
-        Spørsmål kan rettes til
+        Spørsmål kan rettes til{" "}
         <A href="mailto:revy-teknikk@abakus.no">revy-teknikk@abakus.no</A>
       </P>
       <H5>Revyen er samarbeidspartnere av:</H5>
