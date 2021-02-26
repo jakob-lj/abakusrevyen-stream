@@ -61,15 +61,15 @@ const DigitalTicket = () => {
       <Logo src={logo} />
       <H3>Takk for at du har kjøpt billett!</H3>
       <P>
-Vi gleder oss til å vise dere hva vi har jobbet med det siste året. Dette blir moro.
+        Vi gleder oss til å vise dere hva vi har jobbet med det siste året.
+        Dette blir moro.
       </P>
       <P>
-	Du vil bli tilsendt din digitale billett på mail før forestillingen. Spørsmål kan rettes
-        <A href="mailto:revy-teknikk@abakus.no">
-          revy-teknikk@abakus.no
-        </A>
+        Du vil bli tilsendt din digitale billett på mail før forestillingen.
+        Spørsmål kan rettes til
+        <A href="mailto:revy-teknikk@abakus.no">revy-teknikk@abakus.no</A>
       </P>
-      <H5>Revyen er sponset av:</H5>
+      <H5>Revyen er samarbeidspartnere av:</H5>
       <SponsorContainer>
         <SponsorLogo src={deloitteLogo} />
         <SponsorLogo src={sopraLogo} />
