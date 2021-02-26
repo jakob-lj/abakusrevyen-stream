@@ -1,15 +1,23 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Landing from "./components/Landing";
 import Chat from "./components/Chat";
 import StreamingApp from "./components/StreamingApp";
 import DigitalTicket from "./pages/DigitalTicket";
+import Stream from "./pages/Stream";
+import Background from "./components/Background";
 
 const Routes = () => {
+  const DefaultView = DigitalTicket;
   return (
     <div>
       <Router>
-        <Route path={"/"} component={DigitalTicket} />
+        <Background>
+          <Switch>
+            <Route path={"/digital-billett"} component={DigitalTicket} />
+            <Route path={"/"} component={DefaultView} />
+          </Switch>
+        </Background>
       </Router>
     </div>
   );
