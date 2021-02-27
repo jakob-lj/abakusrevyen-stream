@@ -15,6 +15,8 @@ const Routes = () => {
         <Background>
           <Switch>
             <Route path={"/digital-billett"} component={DigitalTicket} />
+            <Route path={"/stream"} component={StreamingApp} />
+            <Route path={"/Chat"} component={Chat} />
             <Route path={"/"} component={DefaultView} />
           </Switch>
         </Background>
