@@ -126,5 +126,9 @@ insert into user_scopes
     (user_id, scope)
 values
     ((select id
-        from users), (select type
-        from ticket_types));
+        from users limit
+1),
+(select type
+from ticket_types limit
+1)
+);

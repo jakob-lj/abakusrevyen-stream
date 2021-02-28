@@ -7,6 +7,7 @@ import DigitalTicket from "./pages/DigitalTicket";
 import Stream from "./pages/Stream";
 import Background from "./components/Background";
 import Login from "./pages/Login";
+import InternalView from "./pages/InternalView";
 
 const Routes = () => {
   const DefaultView = DigitalTicket;
@@ -19,6 +20,7 @@ const Routes = () => {
             <Route path={"/stream"} component={StreamingApp} />
             <Route path={"/Chat"} component={Chat} />
             <Route path={"/login/:token"} component={Login} />
+            <Route path={"/internal"} component={InternalView} />
             <Route path={"/"} component={DefaultView} />
           </Switch>
         </Background>
