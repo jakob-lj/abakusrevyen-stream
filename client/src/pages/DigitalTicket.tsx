@@ -56,6 +56,7 @@ const SponsorLogo = styled.img`
 `;
 
 const DigitalTicket = () => {
+  console.log(process.env.REACT_APP_BACKEND)
   return (
     <Container>
       <Logo src={logo} />
