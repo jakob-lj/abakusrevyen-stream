@@ -18,6 +18,16 @@ const getUserByLoginToken = async (token, client) => {
     return jwtToken
 }
 
+const blockUser = async (client, userId, chattable) => {
+    console.log(!chattable)
+    if (chattable == "false") {
+        await client.query("update chat_message set visible = false where user_id = $1::uuid", [userId])
+    }
+    const result = await client.query("update users set chattable = $2::boolean where id = $1::uuid", [userId, chattable])
+    return result.rowCount === 1
+}
+
 module.exports = {
-    getUserByLoginToken: getUserByLoginToken
+    getUserByLoginToken: getUserByLoginToken,
+    blockUser
 }

@@ -3,10 +3,11 @@ const jwt = require('jsonwebtoken');
 var bodyParser = require('body-parser')
 require("dotenv").config()
 
+
 const { Client } = require("pg");
-const { getUserByLoginToken } = require("./crud/user");
+const { getUserByLoginToken, blockUser } = require("./crud/user");
 const { getUserDetailsByRequest } = require('./utils/user')
-const { insertMessage, getMessages } = require('./crud/chat')
+const { insertMessage, getMessagesBefore, getMessagesAfter, hideMessage } = require('./crud/chat')
 
 const app = express();
 
@@ -44,9 +45,20 @@ const authorization = (level) => {
           return res.status(403).send("Forbidden")
         }
       }
-
+    case "moderator":
+      return (req, res, next) => {
+        if (req.user.scopes.includes("moderator")) {
+          next()
+        } else {
+          return res.status(403).send("Forbidden")
+        }
+      }
   }
 }
+
+app.get("/user/scopes", authenticate, (req, res) => {
+  res.send(req.user.scopes)
+})
 
 app.post("/login", async (req, res) => {
 
@@ -56,7 +68,21 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/chat", authenticate, authorization("read_chat"), async (req, res) => {
-  res.send(await getMessages(client))
+
+  let before = req.body.before !== undefined ? new Date(req.body.before) : new Date()
+  if (before == "Invalid Date") {
+    return res.status(400).send("Bad request")
+  }
+  res.send(await getMessagesBefore(client, before, req.user))
+})
+
+app.get("/chat/after", authenticate, authorization("read_chat"), async (req, res) => {
+
+  let after = req.body.after !== undefined ? new Date(req.body.after) : new Date()
+  if (after == "Invalid Date") {
+    return res.status(400).send("Bad request")
+  }
+  res.send(await getMessagesAfter(client, after))
 })
 
 app.post("/chat", authenticate, authorization("write_chat"), async (req, res) => {
@@ -68,6 +94,22 @@ app.post("/chat", authenticate, authorization("write_chat"), async (req, res) =>
   const message = req.body.message
   res.send(await insertMessage(req.user, message, client))
 
+})
+
+app.put("/chat/mod", authenticate, authorization("moderator"), async (req, res) => {
+  if (req.body.userId && req.body.chattable) {
+    res.send(await blockUser(client, req.body.userId, req.body.chattable))
+  } else {
+    res.status(400).send("Bad request")
+  }
+})
+
+app.put("/chat/message/hide", authenticate, authorization("moderator"), async (req, res) => {
+  if (req.body.chatId) {
+    res.send(await hideMessage(client, req.body.chatId))
+  } else {
+    res.status(400).send("Bad request")
+  }
 })
 
 app.get("/", async (req, res) => {

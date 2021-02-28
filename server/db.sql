@@ -10,14 +10,13 @@ create table ticket_types
     type varchar(200) default 'Normal' unique
 );
 
-
-
 create table users
 (
     email varchar(200),
     name varchar(200),
     display_name varchar(200),
     id uuid primary key unique default uuid_generate_v4(),
+    chattable boolean default true,
     constraint ticket_type_fk FOREIGN key (ticket_type) REFERENCES ticket_types(type)
 );
 
@@ -53,9 +52,11 @@ create table logintokens
 
 create table chat_message
 (
+    id uuid primary key default uuid_generate_v4(),
     user_id uuid not null,
     message varchar(2000) not null,
     sent_time timestamp default now(),
+    visible boolean default true,
     constraint user_id_chat FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
