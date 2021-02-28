@@ -44,7 +44,7 @@ const client = new Client({
   user: "postgres",
   password: process.env.PG_PASS,
   database: "postgres",
-  host: "localhost",
+  host: process.env.DB,
   port: 5432,
 });
 
