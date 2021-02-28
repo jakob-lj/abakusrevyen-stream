@@ -1,6 +1,7 @@
 
 
 const insertMessage = async (jwtUser, message, client) => {
+    console.log(jwtUser)
 
     const isChattable = await client.query("select chattable from users where id = $1::uuid", [jwtUser.userId]).then(r => r.rows[0].chattable)
 
