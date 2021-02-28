@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require('jsonwebtoken');
 var bodyParser = require('body-parser')
 require("dotenv").config()
+const cors = require('cors')
 
 
 const { Client } = require("pg");
@@ -11,6 +12,21 @@ const { insertMessage, getMessagesBefore, getMessagesAfter, hideMessage } = requ
 
 const app = express();
 
+// const whitelist = ['http://localhost:3000']
+const corsOptions = {
+  origin: function (origin, callback) {
+    return callback(null, true)
+    // if (whitelist.indexOf(origin) !== -1) {
+    //   callback(null, true)
+    // } else {
+    //   callback(new Error('Not allowed by CORS'))
+    // }
+  },
+}
+
+
+
+app.use(cors(corsOptions))
 app.use(bodyParser.json())
 
 const client = new Client({
@@ -63,7 +79,12 @@ app.get("/user/scopes", authenticate, (req, res) => {
 app.post("/login", async (req, res) => {
 
   const token = req.body.token;
-  res.send({ token: await getUserByLoginToken(token, client) })
+  try {
+    res.send({ token: await getUserByLoginToken(token, client) })
+
+  } catch (err) {
+    res.status(401).send("Unathenticated")
+  }
 
 });
 

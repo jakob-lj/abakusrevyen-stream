@@ -1,5 +1,6 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import styled from "styled-components";
+import { get, post } from "../utils/network";
 import Message, { XHRChatMessage } from "./Message";
 import MyMessage from "./MyMessage";
 
@@ -81,60 +82,19 @@ const Form = styled.form`
 `;
 
 const Chat = () => {
-  const messages = [
-    {
-      name: "Jake",
-      message: "This is an initializting message",
-      status: "ingoing",
-      id: 1,
-    },
-    {
-      name: "Jake",
-      message: "This is an initializting message",
-      status: "ingoing",
-      id: 2,
-    },
-    {
-      name: "Jake",
-      message: "This is an initializting message",
-      status: "ingoing",
-      id: 3,
-    },
-    {
-      name: "Jake",
-      message: "This is an initializting message",
-      status: "ingoing",
-      id: 4,
-    },
-    {
-      name: "Jake",
-      message: "This is an initializting message",
-      status: "ingoing",
-      id: 5,
-    },
-    {
-      name: "Jake",
-      message: "This is an initializting message",
-      status: "ingoing",
-      id: 6,
-    },
-    {
-      name: "Jake",
-      message: "This is an initializting message",
-      status: "ingoing",
-      id: 7,
-    },
-    {
-      name: "Jake",
-      message: "This is an initializting message",
-      status: "outgoing",
-      id: 8,
-    },
-  ];
-
   type ExtendedMessage = XHRChatMessage & {
     status: string;
   };
+  const [messages, setMessages] = useState<ExtendedMessage[]>([]);
+
+  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    get("/chat")
+      .then((r) => r.json())
+      .then((r) => {
+        setMessages([...messages, ...(r as ExtendedMessage[])]);
+      });
+  }, []);
 
   const msg = messages.map((message: ExtendedMessage) => {
     return message.status === "ingoing" ? (
@@ -148,7 +108,9 @@ const Chat = () => {
 
   const action = (e: FormEvent) => {
     e.preventDefault();
-    console.log(input);
+    post("/chat", {
+      message: input,
+    });
   };
 
   return (

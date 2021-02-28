@@ -8,7 +8,6 @@ const getScopesForUser = async (user, client) => {
 
 const getUserByLoginToken = async (token, client) => {
     const result = await client.query("select * from logintokens lt inner join tickets t on t.id = lt.ticket_id inner join users u on u.id = lt.user_id where token = $1::text and used = false", [token])
-    console.log(result.rows)
     if (result.rows.length !== 1) {
         throw "Not found"
     }
@@ -19,7 +18,6 @@ const getUserByLoginToken = async (token, client) => {
 }
 
 const blockUser = async (client, userId, chattable) => {
-    console.log(!chattable)
     if (chattable == "false") {
         await client.query("update chat_message set visible = false where user_id = $1::uuid", [userId])
     }

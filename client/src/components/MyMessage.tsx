@@ -31,7 +31,7 @@ const ChatName = styled.div`
 `;
 
 const ChatBody = styled.div`
-  background-color: #13c6fe;
+  background-color: #1d325e;
   color: #ffffff;
   padding: 10px;
   padding-right: 13px;
