@@ -13,9 +13,33 @@ const generateTicket = async (client, email, name, type, onlyChat, extraChats) =
             const scopes = await client.query("insert into user_scopes (user_id, scope) values ($1::uuid, $2::text)", [user.rows[0].id, "Chat"])
         }
         console.log(userIds)
+        const tokens = []
+
+        for (let j = 0; j < userIds.length; j++) {
+            const t = generateToken()
+            const update = await client.query("insert into logintokens (token, user_id, ticket_id) values ($1::text, $2::uuid, $3::uuid)", [t, userIds[j], id])
+            tokens.push(t)
+        }
+
+        return { status: tokens, err: null }
+
+
+
+
     } else {
         return { status: false, err: 'insert ticket failed' }
     }
+}
+
+const generateToken = () => {
+    const length = 32
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 
 }
 

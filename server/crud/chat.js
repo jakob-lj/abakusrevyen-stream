@@ -1,7 +1,6 @@
 
 
 const insertMessage = async (jwtUser, message, client) => {
-    console.log(jwtUser)
 
     const isChattable = await client.query("select chattable from users where id = $1::uuid", [jwtUser.userId]).then(r => r.rows[0].chattable)
 
@@ -24,7 +23,7 @@ const getMessages = async (client) => {
 }
 
 const getMessagesBefore = async (client, before, jwtUser) => {
-    const result = await client.query(chatDefaultQuery + " AND sent_time < $1::timestamp order by sent_time desc LIMIT 10", [before, jwtUser.userId])
+    const result = await client.query(chatDefaultQuery + " AND sent_time < $1::timestamp order by sent_time desc LIMIT 200", [before, jwtUser.userId])
     return result.rows
 }
 

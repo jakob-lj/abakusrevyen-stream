@@ -152,6 +152,13 @@ app.post("/user", authenticate, authorization("admin"), async (req, res) => {
   }
 })
 
+app.get("/video", authenticate, async (req, res) => {
+  res.send({
+    experimental: `https://stream.jakoblj.xyz/securedstreaming.html?token=${req.user.userId}`,
+    youtube: 'WAkibHQ_TOs'
+  })
+})
+
 app.get("/", async (req, res) => {
   res.send("hællæ");
 });
