@@ -1,18 +1,25 @@
 const express = require("express");
 const jwt = require('jsonwebtoken');
 var bodyParser = require('body-parser')
+const app = express();
 require("dotenv").config()
 const cors = require('cors')
+const http = require('http');
+const server = http.createServer(app)
+const io = require('socket.io')(server, {
+  cors: {
+    origin: '*',
+  },
+})
 
 
 const { Client } = require("pg");
 const { getUserByLoginToken, blockUser } = require("./crud/user");
 const { getUserDetailsByRequest } = require('./utils/user')
-const { insertMessage, getMessagesBefore, getMessagesAfter, hideMessage } = require('./crud/chat')
+const { insertMessage, getMessagesBefore, getMessagesAfter, hideMessage, getChatById } = require('./crud/chat')
 
 const { generateTicket } = require('./crud/ticket')
 
-const app = express();
 
 // const whitelist = ['http://localhost:3000']
 const corsOptions = {
@@ -26,7 +33,9 @@ const corsOptions = {
   },
 }
 
-
+io.on("connection", () => {
+  console.log('got connection')
+})
 
 app.use(cors(corsOptions))
 app.use(bodyParser.json())
@@ -117,13 +126,14 @@ app.get("/chat/after", authenticate, authorization("read_chat"), async (req, res
 })
 
 app.post("/chat", authenticate, authorization("write_chat"), async (req, res) => {
-
   if (!req.body.message) {
     return res.status(400).send('Bad request')
   }
 
   const message = req.body.message
-  res.send(await insertMessage(req.user, message, client))
+  const result = await insertMessage(req.user, message, client)
+  io.emit("chat", await getChatById(client, result.id, req.user.userId))
+  res.send(result)
 
 })
 
@@ -144,7 +154,6 @@ app.put("/chat/message/hide", authenticate, authorization("moderator"), async (r
 })
 
 app.post("/user", authenticate, authorization("admin"), async (req, res) => {
-  console.log(req.body)
   if (req.body.email && req.body.name && req.body.ticket_type && req.body.onlyChat !== undefined && req.body.extraChats !== undefined) {
     res.send(await generateTicket(client, req.body.email, req.body.name, req.body.ticket_type, req.body.onlyChat, req.body.extraChats))
   } else {
@@ -155,7 +164,7 @@ app.post("/user", authenticate, authorization("admin"), async (req, res) => {
 app.get("/video", authenticate, async (req, res) => {
   res.send({
     experimental: `https://stream.jakoblj.xyz/securedstreaming.html?token=${req.user.userId}`,
-    youtube: 'WAkibHQ_TOs'
+    youtube: 'lOWSP-iFzF4'
   })
 })
 
@@ -163,4 +172,4 @@ app.get("/", async (req, res) => {
   res.send("hællæ");
 });
 
-app.listen(9000, () => { });
+server.listen(9000, () => { });
