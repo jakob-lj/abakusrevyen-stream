@@ -27,11 +27,11 @@ create table tickets
 
 create table users
 (
+    id uuid primary key unique default uuid_generate_v4(),
     email varchar(200),
     name varchar(200),
     ticket_id uuid not null,
     display_name varchar(200),
-    id uuid primary key unique default uuid_generate_v4(),
     chattable boolean default true,
     constraint ticket_id_user FOREIGN KEY (ticket_id) references tickets(id)
 );
@@ -72,6 +72,13 @@ create table chat_message
 
 insert into ticket_types
 default values;
+
+insert into ticket_types
+    (type)
+values
+    ('Chat'),
+    ('moderator'),
+    ( 'admin');
 
 insert into ticket_details
 default values;

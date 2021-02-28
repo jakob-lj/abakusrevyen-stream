@@ -10,6 +10,8 @@ const { getUserByLoginToken, blockUser } = require("./crud/user");
 const { getUserDetailsByRequest } = require('./utils/user')
 const { insertMessage, getMessagesBefore, getMessagesAfter, hideMessage } = require('./crud/chat')
 
+const { generateTicket } = require('./crud/ticket')
+
 const app = express();
 
 // const whitelist = ['http://localhost:3000']
@@ -64,6 +66,14 @@ const authorization = (level) => {
     case "moderator":
       return (req, res, next) => {
         if (req.user.scopes.includes("moderator")) {
+          next()
+        } else {
+          return res.status(403).send("Forbidden")
+        }
+      }
+    case "admin":
+      return (req, res, next) => {
+        if (req.user.scopes.includes("admin")) {
           next()
         } else {
           return res.status(403).send("Forbidden")
@@ -130,6 +140,15 @@ app.put("/chat/message/hide", authenticate, authorization("moderator"), async (r
     res.send(await hideMessage(client, req.body.chatId))
   } else {
     res.status(400).send("Bad request")
+  }
+})
+
+app.post("/user", authenticate, authorization("admin"), async (req, res) => {
+  console.log(req.body)
+  if (req.body.email && req.body.name && req.body.ticket_type && req.body.onlyChat !== undefined && req.body.extraChats !== undefined) {
+    res.send(await generateTicket(client, req.body.email, req.body.name, req.body.ticket_type, req.body.onlyChat, req.body.extraChats))
+  } else {
+    return res.status(400).send("Bad request")
   }
 })
 
