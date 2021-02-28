@@ -6,6 +6,7 @@ import StreamingApp from "./components/StreamingApp";
 import DigitalTicket from "./pages/DigitalTicket";
 import Stream from "./pages/Stream";
 import Background from "./components/Background";
+import Login from "./pages/Login";
 
 const Routes = () => {
   const DefaultView = DigitalTicket;
@@ -15,8 +16,9 @@ const Routes = () => {
         <Background>
           <Switch>
             <Route path={"/digital-billett"} component={DigitalTicket} />
-
+            <Route path={"/stream"} component={StreamingApp} />
             <Route path={"/Chat"} component={Chat} />
+            <Route path={"/login/:token"} component={Login} />
             <Route path={"/"} component={DefaultView} />
           </Switch>
         </Background>

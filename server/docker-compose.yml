@@ -1,0 +1,18 @@
+
+version: "3"
+services:
+  pg: 
+    image: postgres
+    environment: 
+      POSTGRES_PASSWORD: "pgpass"
+    volumes:
+      - "pgdata:/var/lib/postgres/pgaata"
+  node:
+    build: .
+    ports:
+      - "80:9000"
+    depends_on:
+      - pg
+
+volumes: 
+  pgdata:
