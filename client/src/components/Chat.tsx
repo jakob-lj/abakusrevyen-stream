@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { get, post } from "../utils/network";
 import Message, { XHRChatMessage } from "./Message";
 import MyMessage from "./MyMessage";
+import socketIOClient from "socket.io-client";
 
 const Wrapper = styled.div`
   width: 400px;
@@ -80,6 +81,7 @@ const Form = styled.form`
   flex-direction: row;
   justify-content: space-evenly;
 `;
+const socket = socketIOClient(process.env.REACT_APP_BACKEND!!);
 
 const Chat = () => {
   type ExtendedMessage = XHRChatMessage & {
@@ -89,6 +91,10 @@ const Chat = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
+    socket.on("chat", (e: any) => {
+      console.log(messages);
+      setMessages([...messages, e as ExtendedMessage]);
+    });
     get("/chat")
       .then((r) => r.json())
       .then((r) => {
